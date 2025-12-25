@@ -46,7 +46,7 @@ const Profile = () => {
 
     try {
       setLoading(true)
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+      const API_URL = 'https://myweb-hyh3.onrender.com/api'
       
       // Fetch orders for this customer by email
       const response = await fetch(`${API_URL}/orders/customer/${encodeURIComponent(currentUser.email)}`)

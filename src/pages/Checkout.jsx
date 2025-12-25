@@ -307,7 +307,7 @@ const Checkout = () => {
       // Try to create order on backend (optional - Razorpay can create order automatically)
       let orderId = undefined
       try {
-        const orderResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/payments/create-order`, {
+        const orderResponse = await fetch(`https://myweb-hyh3.onrender.com/api/payments/create-order`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -380,7 +380,7 @@ const Checkout = () => {
             }
 
             // Verify payment on backend
-            const verifyResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/payments/verify-payment`, {
+            const verifyResponse = await fetch(`https://myweb-hyh3.onrender.com/api/payments/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -487,7 +487,7 @@ const Checkout = () => {
 
     // Save order to backend
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/orders`, {
+      const response = await fetch(`https://myweb-hyh3.onrender.com/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderDetails)

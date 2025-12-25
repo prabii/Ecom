@@ -1,7 +1,7 @@
 // Razorpay Payment Integration Library
 // Core Razorpay utilities for payment processing
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+const API_URL = 'https://myweb-hyh3.onrender.com/api'
 export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_1DP5mmOlF5G5ag'
 
 /**
@@ -75,7 +75,7 @@ export const createRazorpayOrder = async (amount, currency = 'INR', receipt = nu
     
     // Provide helpful error messages
     if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-      throw new Error('Cannot connect to backend server. Please ensure the backend is running on http://localhost:5000')
+      throw new Error('Cannot connect to backend server. Please check your API endpoint configuration.')
     }
     
     throw new Error(error.message || 'Failed to create order')

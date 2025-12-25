@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Package, Users, CheckCircle2, XCircle, Truck, Clock, Search } from 'lucide-react'
 import './AdminDashboard.css'
 
-const API_URL = 'http://localhost:5000/api'
+const API_URL = 'https://myweb-hyh3.onrender.com/api'
 
 const AdminDashboard = () => {
   const navigate = useNavigate()
@@ -88,9 +88,8 @@ const AdminDashboard = () => {
       if (error.message.includes('Failed to fetch') || error.message.includes('ERR_FAILED')) {
         alert('❌ Cannot connect to backend server!\n\n' +
               'Please ensure:\n' +
-              '1. Backend server is running on port 5000\n' +
-              '2. Run: cd backend && npm run dev\n' +
-              '3. Check if http://localhost:5000/api/health works\n\n' +
+              '1. Backend API is deployed on Render\n' +
+              '2. Check if https://myweb-hyh3.onrender.com/api/health works\n\n' +
               'Error: ' + error.message)
       } else {
         alert('Login error: ' + error.message)
@@ -331,7 +330,7 @@ const ProductsManager = () => {
 
       const data = await response.json()
       if (data.success) {
-        const imageUrl = `http://localhost:5000${data.data.url}`
+        const imageUrl = `${API_URL.replace('/api', '')}${data.data.url}`
         setFormData(prev => ({
           ...prev,
           image: imageUrl
@@ -694,7 +693,7 @@ const SectionsManager = () => {
 
       const data = await response.json()
       if (data.success) {
-        const imageUrl = `http://localhost:5000${data.data.url}`
+        const imageUrl = `${API_URL.replace('/api', '')}${data.data.url}`
         setFormData(prev => ({...prev, image: imageUrl}))
       }
     } catch (error) {
@@ -1161,7 +1160,7 @@ const HeroManager = () => {
 
       const data = await response.json()
       if (data.success) {
-        const imageUrl = `http://localhost:5000${data.data.url}`
+        const imageUrl = `${API_URL.replace('/api', '')}${data.data.url}`
         setFormData(prev => ({...prev, backgroundImage: imageUrl}))
       }
     } catch (error) {
@@ -1459,7 +1458,7 @@ const CategoriesManager = () => {
 
       const data = await response.json()
       if (data.success) {
-        const imageUrl = `http://localhost:5000${data.data.url}`
+        const imageUrl = `${API_URL.replace('/api', '')}${data.data.url}`
         setFormData(prev => ({...prev, image: imageUrl}))
       }
     } catch (error) {
