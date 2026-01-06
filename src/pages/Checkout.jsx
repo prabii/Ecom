@@ -661,7 +661,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label>State *</label>
+                    <label>State * <span style={{ color: '#e74c3c' }}>(Required)</span></label>
                     <input
                       type="text"
                       name="state"
@@ -669,6 +669,7 @@ const Checkout = () => {
                       onChange={handleNewAddressChange}
                       placeholder="Enter state"
                       required
+                      style={{ borderColor: !newAddress.state.trim() ? '#e74c3c' : '' }}
                     />
                   </div>
                 </div>
@@ -769,7 +770,7 @@ const Checkout = () => {
               </div>
               
               <div className="form-group">
-                <label>State * <span style={{ color: '#e74c3c' }}>(Required)</span></label>
+                <label>State *</label>
                 <input
                   type="text"
                   name="state"
@@ -777,7 +778,6 @@ const Checkout = () => {
                   onChange={handleInputChange}
                   placeholder="Enter state"
                   required
-                  style={{ borderColor: !customerDetails.state.trim() ? '#e74c3c' : '' }}
                 />
               </div>
             </div>
