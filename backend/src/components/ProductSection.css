@@ -68,6 +68,14 @@
 }
 
 @media (max-width: 768px) {
+  .section-header {
+    padding: 0 1rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
   .products-grid-container {
     grid-template-columns: repeat(2, 1fr);
     padding: 0 1rem;
@@ -80,5 +88,4 @@
     grid-template-columns: 1fr;
   }
 }
-
 
