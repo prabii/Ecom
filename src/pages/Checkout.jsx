@@ -223,8 +223,9 @@ const Checkout = () => {
       alert('Please enter your city')
       return false
     }
-    if (!customerDetails.state.trim()) {
-      alert('Please enter your state')
+    // State is mandatory - strict validation
+    if (!customerDetails.state || !customerDetails.state.trim()) {
+      alert('State field is mandatory. Please enter your state.')
       return false
     }
     if (!customerDetails.pincode.trim() || customerDetails.pincode.length !== 6) {
@@ -768,7 +769,7 @@ const Checkout = () => {
               </div>
               
               <div className="form-group">
-                <label>State *</label>
+                <label>State * <span style={{ color: '#e74c3c' }}>(Required)</span></label>
                 <input
                   type="text"
                   name="state"
@@ -776,6 +777,7 @@ const Checkout = () => {
                   onChange={handleInputChange}
                   placeholder="Enter state"
                   required
+                  style={{ borderColor: !customerDetails.state.trim() ? '#e74c3c' : '' }}
                 />
               </div>
             </div>

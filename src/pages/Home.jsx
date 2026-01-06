@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import ProductSection from '../components/ProductSection'
 import { sectionsAPI, productsAPI } from '../utils/api'
 import './Home.css'
 
 const Home = () => {
   const { addToCart } = useCart()
+  const { currentUser } = useAuth()
   const [heroData, setHeroData] = useState(null)
   const [dealOfDay, setDealOfDay] = useState(null)
   const [dealProduct, setDealProduct] = useState(null)
@@ -160,95 +162,98 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="hero-container">
-        <div className="hero-section">
-          {heroData?.image && (
-            <div className="hero-image-wrapper">
-              <img src={heroData.image} alt={heroData.title || 'Hero'} className="hero-image" />
-            </div>
-          )}
-          <div className="hero-content">
-            <span className="hero-tag">{getHeroMetadata('tag', '• NEW SMART LIVING COLLECTION')}</span>
-            <h1>{heroData?.title || 'Bring your Dream Home to Life.'}</h1>
-            <p className="hero-description">
-              {heroData?.description || 'Explore carefully curated collections for every kind of home. From intelligent robot vacuums to cozy miniature kits, make your space as smart as it looks.'}
-            </p>
-            <div className="hero-stats">
-              <div className="stat-item">
-                <span className="stat-number">{getHeroMetadata('stat1Number', '25k+')}</span>
-                <span className="stat-label">{getHeroMetadata('stat1Label', 'Happy Customers')}</span>
+      {/* Only show hero section if user is NOT logged in */}
+      {!currentUser && (
+        <div className="hero-container">
+          <div className="hero-section">
+            {heroData?.image && (
+              <div className="hero-image-wrapper">
+                <img src={heroData.image} alt={heroData.title || 'Hero'} className="hero-image" />
               </div>
-              <div className="stat-item">
-                <span className="stat-number">{getHeroMetadata('stat2Number', '4.8+')}</span>
-                <span className="stat-label">{getHeroMetadata('stat2Label', 'Average Rating')}</span>
+            )}
+            <div className="hero-content">
+              <span className="hero-tag">{getHeroMetadata('tag', '• NEW SMART LIVING COLLECTION')}</span>
+              <h1>{heroData?.title || 'Bring your Dream Home to Life.'}</h1>
+              <p className="hero-description">
+                {heroData?.description || 'Explore carefully curated collections for every kind of home. From intelligent robot vacuums to cozy miniature kits, make your space as smart as it looks.'}
+              </p>
+              <div className="hero-stats">
+                <div className="stat-item">
+                  <span className="stat-number">{getHeroMetadata('stat1Number', '25k+')}</span>
+                  <span className="stat-label">{getHeroMetadata('stat1Label', 'Happy Customers')}</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">{getHeroMetadata('stat2Number', '4.8+')}</span>
+                  <span className="stat-label">{getHeroMetadata('stat2Label', 'Average Rating')}</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">{getHeroMetadata('stat3Number', '48hr')}</span>
+                  <span className="stat-label">{getHeroMetadata('stat3Label', 'Fast Delivery')}</span>
+                </div>
               </div>
-              <div className="stat-item">
-                <span className="stat-number">{getHeroMetadata('stat3Number', '48hr')}</span>
-                <span className="stat-label">{getHeroMetadata('stat3Label', 'Fast Delivery')}</span>
+              <div className="hero-actions">
+                <a href={getHeroMetadata('button1Link', '#popular')} className="hero-btn">
+                  {getHeroMetadata('button1Text', 'SHOP BESTSELLERS')}
+                </a>
+                <a href={getHeroMetadata('button2Link', '#categories')} className="hero-btn">
+                  {getHeroMetadata('button2Text', 'BROWSE ALL CATEGORIES')}
+                </a>
               </div>
-            </div>
-            <div className="hero-actions">
-              <a href={getHeroMetadata('button1Link', '#popular')} className="hero-btn">
-                {getHeroMetadata('button1Text', 'SHOP BESTSELLERS')}
-              </a>
-              <a href={getHeroMetadata('button2Link', '#categories')} className="hero-btn">
-                {getHeroMetadata('button2Text', 'BROWSE ALL CATEGORIES')}
-              </a>
             </div>
           </div>
-        </div>
 
-        <div className="deal-section-wrapper">
-          {dealOfDay ? (
-            <div className="deal-section">
-              <div className="deal-header">
-                <h2>{dealOfDay.title || 'Deal of the Day'}</h2>
-                <div className="deal-timer">{timer}</div>
-              </div>
-              {dealProduct ? (
-                <div className="deal-product">
-                  <img src={dealProduct.image} alt={dealProduct.name} className="deal-image" />
-                  <h3>{dealProduct.name}</h3>
-                  <div className="deal-pricing">
-                    <span className="deal-price">₹{dealProduct.price?.toLocaleString('en-IN') || '0'}</span>
-                    {dealProduct.discount > 0 && (
-                      <span className="deal-discount">{dealProduct.discount}% OFF</span>
+          <div className="deal-section-wrapper">
+            {dealOfDay ? (
+              <div className="deal-section">
+                <div className="deal-header">
+                  <h2>{dealOfDay.title || 'Deal of the Day'}</h2>
+                  <div className="deal-timer">{timer}</div>
+                </div>
+                {dealProduct ? (
+                  <div className="deal-product">
+                    <img src={dealProduct.image} alt={dealProduct.name} className="deal-image" />
+                    <h3>{dealProduct.name}</h3>
+                    <div className="deal-pricing">
+                      <span className="deal-price">₹{dealProduct.price?.toLocaleString('en-IN') || '0'}</span>
+                      {dealProduct.discount > 0 && (
+                        <span className="deal-discount">{dealProduct.discount}% OFF</span>
+                      )}
+                    </div>
+                    <div className="deal-delivery">
+                      <span className="delivery-icon">✓</span>
+                      <span>{dealProduct.delivery || 'Free delivery this weekend'}</span>
+                    </div>
+                    <button className="deal-btn" onClick={handleDealAddToCart}>ADD TO CART</button>
+                  </div>
+                ) : dealOfDay.image ? (
+                  <div className="deal-product">
+                    <img src={dealOfDay.image} alt={dealOfDay.title} className="deal-image" />
+                    <h3>{dealOfDay.title}</h3>
+                    {dealOfDay.description && <p style={{ color: 'var(--text-light)', textAlign: 'left', width: '100%' }}>{dealOfDay.description}</p>}
+                    {dealOfDay.link && (
+                      <a href={dealOfDay.link} className="deal-btn" style={{ textDecoration: 'none', display: 'block' }}>{dealOfDay.buttonText || 'VIEW DEAL'}</a>
                     )}
                   </div>
-                  <div className="deal-delivery">
-                    <span className="delivery-icon">✓</span>
-                    <span>{dealProduct.delivery || 'Free delivery this weekend'}</span>
+                ) : (
+                  <div className="deal-product">
+                    <p style={{ color: 'var(--text-light)', opacity: 0.7 }}>No deal available</p>
                   </div>
-                  <button className="deal-btn" onClick={handleDealAddToCart}>ADD TO CART</button>
-                </div>
-              ) : dealOfDay.image ? (
-                <div className="deal-product">
-                  <img src={dealOfDay.image} alt={dealOfDay.title} className="deal-image" />
-                  <h3>{dealOfDay.title}</h3>
-                  {dealOfDay.description && <p style={{ color: 'var(--text-light)', textAlign: 'left', width: '100%' }}>{dealOfDay.description}</p>}
-                  {dealOfDay.link && (
-                    <a href={dealOfDay.link} className="deal-btn" style={{ textDecoration: 'none', display: 'block' }}>{dealOfDay.buttonText || 'VIEW DEAL'}</a>
-                  )}
-                </div>
-              ) : (
-                <div className="deal-product">
-                  <p style={{ color: 'var(--text-light)', opacity: 0.7 }}>No deal available</p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="deal-section">
-              <div className="deal-header">
-                <h2>Deal of the Day</h2>
-                <div className="deal-timer">00:00:00</div>
+                )}
               </div>
-              <div className="deal-product">
-                <p style={{ color: 'var(--text-light)', opacity: 0.7 }}>Check back soon for amazing deals!</p>
+            ) : (
+              <div className="deal-section">
+                <div className="deal-header">
+                  <h2>Deal of the Day</h2>
+                  <div className="deal-timer">00:00:00</div>
+                </div>
+                <div className="deal-product">
+                  <p style={{ color: 'var(--text-light)', opacity: 0.7 }}>Check back soon for amazing deals!</p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {categoriesSection && (
         <div className="categories-section" id="categories">
